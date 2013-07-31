@@ -3,16 +3,11 @@
 <title>AkaChat</title>
 <head>
  <link rel="stylesheet" href="style.css" type="text/css" />
-
-
 <meta charset="utf-8">
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-<script type='text/javascript', src='http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js'>
-
-</script>
+<script type="text/javascript", src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
 
 <script>
-
 var socket;
 
 //日付を獲得する
@@ -35,10 +30,11 @@ $(function() {
   // ボタンクリックは1度だけ有効
   $('#connect').one('click',
     function(e) {
-    socket = io.connect('http://localhost:4445');
+    socket = io.connect('http://10.1.1.57:4445');
 		socket.on('connect', function(){ 
 			 console.log('connected');
 			 name = $('#name').val();
+		         name = execute(name);
 			 timeGet();
 			 socket.send('<fieldset>' + name + 'さんが接続しました．<timeTxt>('+days+')</timeTxt><br></fieldset><br>');
 		});
@@ -52,9 +48,19 @@ $(function() {
   );
 });
 
+function execute(str){
+    str = str.replace(/&/g,"&amp;");
+    str = str.replace(/"/g,"&quot;");
+    str = str.replace(/'/g,"&#039;");
+    str = str.replace(/</g,"&lt;");
+    str = str.replace(/>/g,"&gt;");
+    return str;
+}
+
 //Sendボタンがクリックされたらする処理
 function Send(){
 	msg = $('#inputMsg').val();
+	msg = execute(msg);
 	timeGet();
 	socket.send('<fieldset>' + name +'<timeTxt>  ('+ days +')</timeTxt><br>> '+ msg + '</fieldset><br>');
     inputMsg.value="";
@@ -70,14 +76,13 @@ function disCon(){
 </script>
 
 </head>
-
 <body id="tab1">
-<p1><h1>AkaChat</h1>
-
+<img src="akachat-logo.png" width="350" alt="akachat"><br>
+<br>
 <form name='frmSample'>
 	　　名前:　<input type="text" id="name" name="txtName" size="22" placeholder="名前は変更できません"> 	
 	<input type="button" id="connect" value="接続する">
-	
+
 	<br>	
 	<br>
 	つぶやく:　<input type="text" id="inputMsg" size="22" placeholder="今どんな気持ち？">
