@@ -44,7 +44,7 @@ function handler (req, res) {
 		break;
 
 
-    case '/akachat-logo.png':
+	case '/akachat-logo.png':
 	    fs.readFile(__dirname + '/akachat-logo.png',
 				    function (err, data) {
 					    if (err) {
@@ -55,6 +55,18 @@ function handler (req, res) {
 				        res.end(data);
 			        });	
 		break;
+
+	case '/app.js':
+            fs.readFile(__dirname + '/app.js',
+                        function (err, data) {
+                            if (err) {
+                                res.writeHead(500);
+                                return res.end('Error loading app.js');
+                            }
+                            res.writeHead(200,{ 'Content-Type': 'text/javascript' });
+                            res.end(data);
+			});
+        break;
 
     default: send404(res);
 	}

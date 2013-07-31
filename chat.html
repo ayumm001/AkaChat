@@ -5,89 +5,21 @@
  <link rel="stylesheet" href="style.css" type="text/css" />
 <meta charset="utf-8">
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-<script type="text/javascript", src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-
-<script>
-var socket;
-
-//日付を獲得する
-function timeGet(){
-	DD = new Date();
-	Year = DD.getYear();
-	Month = DD.getMonth();
-	Day = DD.getDate();
-	Hours = DD.getHours();
-	 if (Hours < 10) {Hours = "0" + Hours;}
-	Minutes = DD.getMinutes();
-	 if (Minutes < 10) {Minutes = "0" + Minutes;}
-	Seconds = DD.getSeconds();
-	 if (Seconds < 10) {Seconds = "0" + Seconds;}
-	days = (Year+1900)+"-"+(Month+1)+"-"+Day+" "+Hours+":"+Minutes+":"+Seconds;
-}
-
-$(function() {
-  //connectボタンがクリックされたらする処理
-  // ボタンクリックは1度だけ有効
-  $('#connect').one('click',
-    function(e) {
-    socket = io.connect('http://10.1.1.57:4445');
-		socket.on('connect', function(){ 
-			 console.log('connected');
-			 name = $('#name').val();
-		         name = execute(name);
-			 timeGet();
-			 socket.send('<fieldset>' + name + 'さんが接続しました．<timeTxt>('+days+')</timeTxt><br></fieldset><br>');
-		});
-	　　 socket.on('message', function(msg) {  
-		console.log(msg);
-   	         $('#table').append(msg);
-   	    });
-   	    //名前を変更できないようにする
-    document.frmSample.txtName.disabled = true ;
-    }
-  );
-});
-
-function execute(str){
-    str = str.replace(/&/g,"&amp;");
-    str = str.replace(/"/g,"&quot;");
-    str = str.replace(/'/g,"&#039;");
-    str = str.replace(/</g,"&lt;");
-    str = str.replace(/>/g,"&gt;");
-    return str;
-}
-
-//Sendボタンがクリックされたらする処理
-function Send(){
-	msg = $('#inputMsg').val();
-	msg = execute(msg);
-	timeGet();
-	socket.send('<fieldset>' + name +'<timeTxt>  ('+ days +')</timeTxt><br>> '+ msg + '</fieldset><br>');
-    inputMsg.value="";
-}
-
-//切断ボタンがされたらする処理
-function disCon(){
-	timeGet();
-	socket.send('<fieldset>' + name + 'さんが切断しました．<timeTxt>('+ days +')</timeTxt><br></fieldset><br>');
-	socket.disconnect();
-}
-
-</script>
-
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+<script type="text/javascript" src="app.js"></script>
 </head>
 <body id="tab1">
 <img src="akachat-logo.png" width="350" alt="akachat"><br>
 <br>
 <form name='frmSample'>
-	　　名前:　<input type="text" id="name" name="txtName" size="22" placeholder="名前は変更できません"> 	
+	　　名前:　<input type="text" id="name" name="txtName" size="22" placeholder="名前は変更できません">
 	<input type="button" id="connect" value="接続する">
 
 	<br>	
 	<br>
 	つぶやく:　<input type="text" id="inputMsg" size="22" placeholder="今どんな気持ち？">
-	<input type="button" id="send" value="送信" onclick="Send()"> 
-	<input type="button" id="disconnect" value="切断" onclick="disCon()">
+	<input type="button" id="send" value="送信"> 
+	<input type="button" id="disconnect" value="切断">
 	<hr>
 	<br>
 	<table id='table'></div></p1>

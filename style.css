@@ -26,23 +26,24 @@
 }
 
 p1{
-	font-family: "Symbol",sans-serif;
+        font-family: "Symbol",sans-serif;
 }
 
 
 body {
-font: 100% verdana, arial, sans-serif;
-background-color: #fff;
-margin: 50px;
+        font: 100% verdana, arial, sans-serif;
+        background-color: #fff;
+        margin: 50px;
 }
 
-fieldset {
-	background-color: #fffbb6;
-    -moz-border-radius: 5px; /* for Firefox */
-    -webkit-border-radius: 5px; /* for Chrome */
+.field {
+        background-color: #fffbb6;
+	border:solid 1px #808080;
+        border-radius: 5px;
+	padding: 10px
 }
 
-timeTxt{
+.timeTxt{
 	font-size: 10px;
 	color: #3e3d3d;
 	font-style: italic;
